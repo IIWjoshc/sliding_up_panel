@@ -113,6 +113,11 @@ class SlidingUpPanel extends StatefulWidget {
   /// is fully collapsed.
   final VoidCallback onPanelClosed;
 
+  
+  /// If non-null, this callback is called when the panel
+  /// detects a drag.
+  final VoidCallback onPanelDragged;
+
   /// If non-null and true, the SlidingUpPanel exhibits a
   /// parallax effect as the panel slides up. Essentially,
   /// the body slides up as the panel slides up.
@@ -170,6 +175,7 @@ class SlidingUpPanel extends StatefulWidget {
     this.onPanelSlide,
     this.onPanelOpened,
     this.onPanelClosed,
+    this.onPanelDragged,
     this.parallaxEnabled = false,
     this.parallaxOffset = 0.1,
     this.isDraggable = true,
@@ -192,6 +198,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
   VelocityTracker _vt = new VelocityTracker();
 
   bool _isPanelVisible = true;
+  bool _isPanelDragging = false;
 
   @override
   void initState(){
@@ -209,6 +216,8 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
       if(widget.onPanelOpened != null && _ac.value == 1.0) widget.onPanelOpened();
 
       if(widget.onPanelClosed != null && _ac.value == 0.0) widget.onPanelClosed();
+
+      if(widget.onPanelDragged != null && _isPanelDragging == true) widget.onPanelDragged();
     });
 
     _sc = new ScrollController();
@@ -375,6 +384,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
 
   // handles the sliding gesture
   void _onGestureSlide(double dy){
+    _isPanelDragging = true;
 
     // only slide the panel if scrolling is not enabled
     if(!_scrollingEnabled){
@@ -401,6 +411,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
   // handles when user stops sliding
   void _onGestureEnd(Velocity velocity){
     double minFlingVelocity = 365.0;
+    _isPanelDragging = false;
 
     //let the current animation finish before starting a new one
     if(_ac.isAnimating) return;
