@@ -8,6 +8,7 @@ Licensing: More information can be found here: https://github.com/akshathjain/sl
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 enum SlideDirection{
   UP,
