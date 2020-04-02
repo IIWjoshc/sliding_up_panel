@@ -268,7 +268,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
         !widget.backdropEnabled ? Container() : GestureDetector(
           onTap: widget.backdropTapClosesPanel ? _close : null,
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: (_ac.value * 10), sigmaY: (_ac.value * 10)),
+            filter: ImageFilter.blur(sigmaX: (_ac.value * 5), sigmaY: (_ac.value * 5)),
             child: FadeTransition(
             opacity: Tween(begin: 0.0, end: widget.backdropOpacity).animate(_ac),
             child: Container(
